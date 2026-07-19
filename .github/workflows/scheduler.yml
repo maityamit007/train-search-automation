@@ -1,0 +1,40 @@
+name: IRCTC Daily Checker
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 4 * * *" # 4 AM UTC = 9:30 AM IST
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+      
+      - uses: actions/cache@v4
+        with:
+            path: ~/.cache/ms-playwright
+            key: playwright-${{ runner.os }}
+
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Automation
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        run: npx playwright test
