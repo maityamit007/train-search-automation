@@ -1,4 +1,4 @@
-name: IRCTC Daily Checker
+name: Train Status Tracker
 
 on:
   workflow_dispatch:
