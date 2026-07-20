@@ -13,14 +13,14 @@ test('Search train', async ({ page }) => {
   for (const alert of alerts) {
 
     await searchPage.searchTrain(
-      alert.from,
-      alert.to,
-      alert.date
+      alert.fromStation,
+      alert.toStation,
+      alert.journeyDate
     );
 
     const result = await searchPage.getTrainDetails(
       alert.trainNumber,
-      alert.coach
+      alert.coachType
     );
     const message = formatNotification(result);
     await notify(message, result);

@@ -1,15 +1,18 @@
+const { default: axios } = require("axios");
 const data = require("./mockData.js");
 
 async function getAlerts() {
-    // Later this will become an axios GET call
-    return data;
+    let respData = await axios(process.env.API_URL);
+    if (respData.data.length > 0 ) {
+        return respData.data
+    } else {
+        return [];
+    }
 }
 
 async function updateAlert(id, payload) {
     console.log("Updating:", id);
     console.log(payload);
-
-    // Later this becomes POST /alerts/result
 }
 
 module.exports = {
