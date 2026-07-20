@@ -1,5 +1,4 @@
 const { default: axios } = require("axios");
-const data = require("./mockData.js");
 
 async function getAlerts() {
     let respData = await axios(process.env.API_URL);
