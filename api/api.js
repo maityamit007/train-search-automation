@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+require('dotenv').config();
 
 async function getAlerts() {
     let respData = await axios(process.env.API_URL);
