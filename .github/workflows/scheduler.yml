@@ -37,4 +37,5 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          PNR: ${{ secrets.PNR }}
         run: npx playwright test
