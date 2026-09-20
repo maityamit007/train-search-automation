@@ -2,6 +2,7 @@ const { test } = require('@playwright/test');
 
 const { PnrStatusCheck } = require('../pages/pnrStatusCheck');
 const { sendNtfy } = require('../api/api');
+const { getConfirmationChance, createBattery } = require('../utils/utils');
 
 require('dotenv').config();
 
@@ -20,20 +21,22 @@ test('PNR Status Check', async ({ page }) => {
 
     console.log('Final passenger data:', passengers);
 
-    const statusMessage = passengers
-        .map(({ passenger, status }) => {
-            return `${passenger}: ${status}`;
-        })
-        .join('\n');
+    const passengerMessages = passengers.map(
+        ({ passenger, status, type, number }) => {
+
+            const chance = getConfirmationChance(type, number);
+            const battery = createBattery(chance);
+
+            return [
+                `${passenger}: ${status}`,
+                `Confirmation estimate: ${chance}%`
+            ].join('\n');
+        }
+    );
 
     const message = [
-        `PNR Status`,
-        ``,
         `PNR: ${process.env.PNR}`,
-        ``,
-        statusMessage,
-        ``,
-        `Checked automatically by GitHub Actions`
+        ...passengerMessages,
     ].join('\n');
 
     console.log('\n' + message);
