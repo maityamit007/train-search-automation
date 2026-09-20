@@ -42,7 +42,7 @@ function createBattery(chance) {
     const total = 10;
     const filled = Math.round(chance / 10);
 
-    return `[${'|'.repeat(filled)}${' '.repeat(total - filled)}] ${chance}%`;
+    return `${'🟩'.repeat(filled)}${'⬜'.repeat(total - filled)} ${chance}%`;
 }
 
 

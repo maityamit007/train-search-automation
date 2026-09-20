@@ -29,7 +29,7 @@ test('PNR Status Check', async ({ page }) => {
 
             return [
                 `${passenger}: ${status}`,
-                `Confirmation estimate: ${chance}%`
+                `${battery}`
             ].join('\n');
         }
     );
