@@ -19,3 +19,31 @@ module.exports = {
     getAlerts,
     updateAlert
 };
+
+async function sendNtfy(title, message) {
+    const topic = process.env.NTFY_TOPIC;
+
+    if (!topic) {
+        throw new Error('NTFY_TOPIC environment variable is missing');
+    }
+
+    const response = await fetch(`https://ntfy.sh/${topic}`, {
+        method: 'POST',
+        headers: {
+            'Title': title,
+            'Priority': 'high',
+            'Tags': 'train'
+        },
+        body: message
+    });
+
+    if (!response.ok) {
+        throw new Error(
+            `ntfy notification failed: ${response.status} ${response.statusText}`
+        );
+    }
+
+    console.log('📱 ntfy notification sent successfully');
+}
+
+module.exports = { sendNtfy };
